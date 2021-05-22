@@ -1,0 +1,16 @@
+---
+- name: Create private group for minio user
+  group:
+    name: "{{ minio_group }}"
+    system: yes
+    state: present
+- name: Create minio user
+  user:
+    name: "{{ minio_user }}"
+    group: "{{ minio_group }}"
+    shell: "/bin/nologin"
+    system: yes
+    comment: "Minio application user"
+    state: present
+        
+      

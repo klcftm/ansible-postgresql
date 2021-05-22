@@ -1,0 +1,91 @@
+---
+- hosts: worker
+  gather_facts: no
+  vars_files:
+    - vars.yaml
+  tasks:
+    - name: Grab pvs
+      shell: lsscsi |grep "VMware Virtual"|grep -v "0:0:0"|awk '{print $8}'
+      register: scsi_info
+
+    - name: Cretate a partition to fake it ;)
+      parted:
+        device: "{{ item }}"
+        label: gpt
+        number: 1
+        state: present
+      with_items: "{{scsi_info.stdout_lines}}"
+      register: pvs_info
+
+    - debug: 
+        var: pvs_info  
+
+    - name: Create a new  and fancy volume group
+      lvg:
+        vg: vg.minio
+        pvs: /dev/sdb1
+    
+    - name: Create lots of logical volumes
+      lvol:
+        vg: vg.minio
+        lv: " {{ item.name }}"
+        size: "{{ item.size }}" 
+      with_items:
+        - name: lv_01
+          size: 100m
+        - name: lv_02
+          size: 100m
+        - name: lv_03
+          size: 100m
+        - name: lv_04
+          size: 100m
+        - name: lv_05
+          size: 100m
+        - name: lv_06
+          size: 100m
+        - name: lv_07
+          size: 100m
+        - name: lv_08
+          size: 100m
+
+    - name: Create xfs file systems
+      filesystem:
+        fstype: xfs
+        dev: "/dev/mapper/vg.minio-{{ item }}"
+      with_items:
+        - lv_01
+        - lv_02
+        - lv_03
+        - lv_04
+        - lv_05
+        - lv_06
+        - lv_07
+        - lv_08
+
+    - name: Mount file system
+      mount:
+        fstype: xfs
+        path: "/mnt/disks/{{ item.mount_point }}"
+        src: "/dev/mapper/vg.minio-{{ item.lvol }}"
+        opts: noatime
+        state: mounted
+      with_items:
+        - lvol: lv_01
+          mount_point: minio1
+        - lvol: lv_02
+          mount_point: minio2
+        - lvol: lv_03
+          mount_point: minio3
+        - lvol: lv_04
+          mount_point: minio4
+        - lvol: lv_05
+          mount_point: minio5
+        - lvol: lv_06
+          mount_point: minio6
+        - lvol: lv_07
+          mount_point: minio7
+        - lvol: lv_08
+          mount_point: minio8
+  
+    - include_tasks: "minio_user.yaml"
+    - include_tasks: "minio_service.yaml"

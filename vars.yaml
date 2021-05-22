@@ -6,3 +6,14 @@ postgresql_config_path: "/var/lib/pgsql/{{ postgresql_version }}/data"
 db_name: infradb
 db_user: infra
 db_password: infra-123
+minio_user: minio
+minio_group: minio
+minio_binary_dir: /usr/local/bin
+minio_dir: "{{ minio_binary_dir }}/minio"
+minio_conf_dir: /opt/minio
+minio_service_dir: /etc/systemd/system
+minio_download_url: https://dl.minio.io/server/minio/release/linux-amd64/minio
+minio_download_dir: /tmp
+minio_always_update_binary: false
+volumes: /mnt/disks/minio1, /mnt/disks/minio2, /mnt/disks/minio3, /mnt/disks/minio4, /mnt/disks/minio5, /mnt/disks/minio6, /mnt/disks/minio7, /mnt/disks/minio8
+mount_file: /mnt/disks
