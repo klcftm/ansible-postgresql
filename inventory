@@ -1,5 +1,9 @@
 [theone]
-otomatik ansible_host = 192.168.1.36
+autemated ansible_host = 192.168.1.36
 
 [worker]
-virtual01 ansible_host=192.168.1.63
+virtual01 ansible_host=192.168.1.41
+virtual02 ansible_host=192.168.1.42
+virtual03 ansible_host=192.168.1.43
+
+

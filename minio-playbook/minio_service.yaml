@@ -3,12 +3,14 @@
   stat:
     path: "{{ minio_binary_dir }}/minio"
   register: minio_binary_stat_result
+
 - name: Download minio server
   get_url:
     url: "{{ minio_download_url }}"
     dest: "{{ minio_download_dir }}"
     mode: 0755
   when: minio_always_update_binary or not minio_binary_stat_result.stat.exists
+
 - name: Install minio binary
   copy:
     src: "{{ minio_download_dir }}/minio"
@@ -26,6 +28,11 @@
     owner: "{{ minio_user }}"
     group: "{{ minio_group }}"
     mode: 0755
+
+- name: Creates configurations directory
+  file:
+    path: "{{ minio_conf_dir }}"
+    state: directory
 
 - name: Create minio configurations file.
   template:

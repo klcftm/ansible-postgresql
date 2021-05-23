@@ -1,4 +1,4 @@
-# PostgreSQL Playbook
+# Playbook
 
 Hosts bilgileri için örnek inventory dosyası;
 
@@ -6,26 +6,20 @@ Hosts bilgileri için örnek inventory dosyası;
 [theone]
 automated ansible_host=192.168.1.36
 
-```
 
-PostgreSQL versiyonu, database ismi ve kullanıcı bilgileri için vars.yaml dosyasında değişiklik yapabilirsiniz.
-
-```yaml
----
-postgresql_version: <version>
-postgresql_user: postgres
-postgresql_group: postgres
-postgresql_config_path: "/var/lib/pgsql/{{ postgresql_version }}/data"
-db_name: <db_name>
-db_user: <db_user>
-db_password: <db_password>
+[worker]
+virtual01 ansible_host=192.168.1.41
+virtual02 ansible_host=192.168.1.42
+virtual03 ansible_host=192.168.1.43
 
 ```
 
-Playbook'un çalıştırılması:
+Playbookların çalıştırılması:
 
 ```
-ansible-playbook install_postgresql.yaml
+ansible-playbook postgresql-playbook/install_postgresql.yaml
+
+ansible-playbook minio-playbook/minio.yaml
 
 ```
 

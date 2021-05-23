@@ -1,0 +1,9 @@
+---
+postgresql_version: 11
+postgresql_user: postgres
+postgresql_group: postgres
+postgresql_config_path: "/var/lib/pgsql/{{ postgresql_version }}/data"
+db_name: infradb
+db_user: infra
+db_password: infra-123
+

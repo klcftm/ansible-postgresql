@@ -6,8 +6,8 @@ After=network-online.target
 AssertFileIsExecutable={{ minio_dir }}
 
 [Service]
-User=minio
-Group=minio
+User={{ minio_user }}
+Group={{ minio_group }}
 
 PermissionsStartOnly=true
 

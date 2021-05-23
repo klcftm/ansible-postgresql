@@ -62,10 +62,15 @@
         - lv_07
         - lv_08
 
+    - name: Creates mount directory
+      file: 
+        path: "{{ mount_file }}"
+        state: directory
+
     - name: Mount file system
       mount:
         fstype: xfs
-        path: "/mnt/disks/{{ item.mount_point }}"
+        path: "{{ mount_file }}/{{ item.mount_point }}"
         src: "/dev/mapper/vg.minio-{{ item.lvol }}"
         opts: noatime
         state: mounted
