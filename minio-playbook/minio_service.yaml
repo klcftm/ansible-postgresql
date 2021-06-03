@@ -56,5 +56,21 @@
       state: started
       enabled: yes
 
+- name: Disable SELinux
+  selinux:
+      state: disabled
+
+- name: Disable Firewalld
+  systemd:
+     name: firewalld
+     state: stopped
+     enabled: false
+
+- name: Tuned Disable and Stop
+  systemd:
+     name: tuned
+     state: stopped
+     enabled: false
+
 
   

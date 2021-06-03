@@ -67,6 +67,22 @@
         mode: 0600
       notify: restart postgres
 
+    - name: Disable SELinux
+      selinux:
+        state: disabled
+
+    - name: Disable Firewalld
+      systemd:
+        name: firewalld
+        state: stopped
+        enabled: false
+
+    - name: Tuned Disable and Stop
+      systemd:
+        name: tuned
+        state: stopped
+        enabled: false
+
   handlers:
     - name: restart postgres
       service: "name=postgresql-{{ postgresql_version }} state=restarted"

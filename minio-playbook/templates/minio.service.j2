@@ -14,7 +14,7 @@ PermissionsStartOnly=true
 EnvironmentFile=-{{ minio_conf_dir }}/minio.conf
 ExecStartPre=/bin/bash -c "[ -n \"${MINIO_VOLUMES}\" ] || echo \"Variable MINIO_VOLUMES not set in {{ minio_conf_dir }}/minio.conf\""
 
-ExecStart={{ minio_dir }} server $MINIO_OPTS $MINIO_VOLUMES
+ExecStart={{ minio_dir }} server $MINIO_OPTS $MINIO_VOLUMES http://192.168.1.{41...43}:9000/mnt/disks/minio{1...8}
 
 StandardOutput=journal
 StandardError=inherit
